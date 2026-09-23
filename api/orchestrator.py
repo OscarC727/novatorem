@@ -623,7 +623,7 @@ def catch_all(path: str) -> Response:
     except Exception as e:
         return make_error_svg(f"Error: {str(e)}", 500)
 
-     if request.args.get("format") == "json":
+    if request.args.get("format") == "json":
         payload = {k: track_data.get(k) for k in (
             "is_playing", "track_name", "artist_name",
             "album_name", "album_art_url", "track_url",
