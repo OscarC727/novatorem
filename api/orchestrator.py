@@ -623,6 +623,16 @@ def catch_all(path: str) -> Response:
     except Exception as e:
         return make_error_svg(f"Error: {str(e)}", 500)
 
+     if request.args.get("format") == "json":
+        payload = {k: track_data.get(k) for k in (
+            "is_playing", "track_name", "artist_name",
+            "album_name", "album_art_url", "track_url",
+        )}
+        resp = Response(json.dumps(payload), mimetype="application/json")
+        resp.headers["Access-Control-Allow-Origin"] = "*"
+        resp.headers["Cache-Control"] = "no-cache"
+        return resp
+
     svg = make_svg(track_data, background_color, border_color, background_type, show_status, is_compact)
 
     resp = Response(svg, mimetype="image/svg+xml")
